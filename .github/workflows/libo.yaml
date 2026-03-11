@@ -1,5 +1,5 @@
 on: push
-permisions:
+permissions:
   contents: write
 jobs:
   npm-build:
