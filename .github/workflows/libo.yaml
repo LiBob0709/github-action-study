@@ -23,8 +23,13 @@ jobs:
           npm ci
           npm run build
 
+      - name: Check build output
+        run: |
+          ls -la react-frontend
+          ls -la react-frontend/build
+
       - name: 部署
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: react-frontend/dist
+          folder: react-frontend/build
