@@ -1,6 +1,8 @@
+# filepath: libo.yaml
 on: push
 permissions:
   contents: write
+
 jobs:
   npm-build:
     runs-on: ubuntu-latest
@@ -8,20 +10,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - run:
-          npm install
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: react-frontend/package-lock.json
+
+      - name: Install & Build
+        working-directory: react-frontend
+        run: |
+          npm ci
           npm run build
 
-      - name: Run a script
-        run: echo "Hello, World!"
-
-      - name: Run tests
-        run: echo "Running tests..."
-
-      - name: node version
-        run: node --version
       - name: 部署
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: build
+          folder: react-frontend/dist
